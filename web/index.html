@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gas Cost Calulator</title>
+
+    <link rel="stylesheet" href="node_modules\bootstrap\dist\css\bootstrap.css">
+
+    <script src="node_modules\jquery\dist\jquery.min.js"></script>
+    <script src="node_modules\bootstrap\dist\js\bootstrap.js"></script>
+
+    <style>
+    #submit {width:100%;max-width:320px;}
+    body{padding-top:20px;}
+    #result{display:none;}
+    #reset{margin:0 auto;display:block;width:150px;padding:0;}
+
+    @media(max-width:40em) {.display-4 {font-size:30px;font-weight:bold;}}
+    @media(max-width: 576px){#submit{max-width:510px;padding-top:20px;padding-bottom:20px;}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert" id="result"><h4></h4><div id="reset" class="btn btn-warning" tabindex="0"><strong>Reset</strong></div></div>
+        <fieldset>
+            <legend><h1 class="display-4">Gas Cost Calculator</h1></legend>
+            <form id="form">
+                <div class="form-group">
+                    <label for="est_miles"><strong>Miles to be Travelled</strong></label>
+                    <input type="number" class="form-control" id="est_miles" placeholder="Enter Miles" required>
+                    <small class="form-text text-muted">*Enter the estimated total number of miles you will be travelling.*</small>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="est_mpg"><strong>Miles Per Gallon (MPG)</strong></label>
+                    <input type="number" class="form-control" id="est_mpg" placeholder="Enter MPG" required>
+                    <small class="form-text text-muted">*Enter the estimated miles per gallon (MPG) you vehicle averages.*</small>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="est_ppg"><strong>Price Per Gallon (PPG)</strong></label>
+                    <input type="number" class="form-control" id="est_ppg" placeholder="Enter PPG" step="0.01" required>
+                    <small class="form-text text-muted">*Enter the estimated average gas price per gallon (PPG) in the places you will be travelling.*</small>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submit">Calculate</button>
+            </form> 
+        </fieldset> 
+    </div>
+    <script>
+
+        var doTheThings = function() {
+
+            var miles = $('#est_miles').val();
+            var mpg = $('#est_mpg').val();
+            var ppg = $('#est_ppg').val();
+
+            if(miles == '') {}
+
+            var gallons = miles/mpg;
+            var cost = Math.floor(gallons*ppg);
+
+            $('#result h4').html("This trip will cost about <h2>$"+cost+".</h2>");
+            $('#submit').html('Adjust');
+
+            $('#result').show();
+
+            $('#reset').focus();
+
+        }
+
+        var clearForm = function() {
+
+            $('#est_miles').val('');
+            $('#est_mpg').val('');
+            $('#est_ppg').val('');
+
+            $('#submit').html('Calculate');
+
+            $('#result').hide();
+
+            $('#est_miles').focus();
+
+            alert('Are you sure you want to clear the from and start over?');
+        }
+
+        $(document).ready(function() {
+
+            $('#est_miles').focus();
+
+            var submit = document.querySelector( "#submit" );
+            var reset = document.querySelector('#reset');
+
+            var miles = document.querySelector('#est_miles');
+            var mpg = document.querySelector('#est_mpg');
+            var ppg = document.querySelector('#est_ppg');
+
+            $("#form").submit(function(e) {
+                e.preventDefault();
+                doTheThings();
+            });
+
+            reset.addEventListener( "click", function(event){
+                clearForm();
+            });
+
+            reset.addEventListener( "keypress", function(event){
+                if(event.keyCode === 13){
+                    clearForm();
+                }
+            });
+
+        });
+
+    </script>
+</body>
+</html>
